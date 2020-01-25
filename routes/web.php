@@ -14,3 +14,10 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+#Route::get('/veiculo', 'VeiculoController@index');
+Route::get('/novo_veiculo', 'VeiculoController@index');
+
+Route::post('/veiculo', function (){
+    return 'veiculos';
+});
