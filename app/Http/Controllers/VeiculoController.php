@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Veiculo;
 use Illuminate\Http\Request;
-use app\Models\Veiculo;
+use Illuminate\Support\Facades\Schema;
 
 class VeiculoController extends Controller
 {
@@ -14,8 +15,10 @@ class VeiculoController extends Controller
      */
     public function index()
     {
-        #$veiculos -> Veiculo::all();
-        return view('templates.add_veiculo');
+        #$veiculos = ['moto', 'carro', 'van'];
+        #return $data;
+        $veiculos = Veiculo::table('veiculos')->get();
+        return view('templates.veiculo', ['veiculos'=>$veiculos]);
     }
 
     /**
@@ -85,6 +88,7 @@ class VeiculoController extends Controller
      */
     public function destroy($id)
     {
-        //
+        
+        Schema::drop('Veiculo');
     }
 }

@@ -10,14 +10,11 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('veiculo/{id}', 'VeiculoController@show')->name('veiculo');
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'VeiculoController@index')->name('veiculo.index');
 
 #Route::get('/veiculo', 'VeiculoController@index');
-Route::get('/novo_veiculo', 'VeiculoController@index');
+#Route::get('/novo_veiculo', 'VeiculoController@index');
 
-Route::post('/veiculo', function (){
-    return 'veiculos';
-});
+#Route::post('/veiculo', 'VeiculoController@create');
