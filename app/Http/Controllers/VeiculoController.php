@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Veiculo;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Schema;
 
 class VeiculoController extends Controller
 {
@@ -15,10 +14,9 @@ class VeiculoController extends Controller
      */
     public function index()
     {
-        #$veiculos = ['moto', 'carro', 'van'];
-        #return $data;
-        $veiculos = Veiculo::table('veiculos')->get();
-        return view('templates.veiculo', ['veiculos'=>$veiculos]);
+        $veiculos = Veiculo::latest()->paginate(5);
+        return view('veiculo.index', compact('veiculos'))->with(
+            'i', (request()->input('page',1) - 1) * 5);
     }
 
     /**
@@ -26,13 +24,9 @@ class VeiculoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(array $data)
+    public function create()
     {
-        return Veiculo::create([
-            'modelo' => $data['modelo'],
-            'placa' => $data['placa'],
-            'ano' => $data['ano']
-        ]);
+        return view('veiculo.adicionar');
     }
 
     /**
@@ -43,52 +37,74 @@ class VeiculoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'modelo' => 'required',
+            'placa'  => 'required',
+            'ano'    => 'required'
+        ]);
+
+        Veiculo::create($request->all());
+
+        return redirect()->route('veiculo.index')->with(
+            'success', 'Veiculo Adicionado com Sucesso!'
+        );
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Veiculo  $veiculo
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Veiculo $veiculo)
     {
-        //
+        return view('veiculo.ver', compact('veiculo'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Veiculo  $veiculo
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Veiculo $veiculo)
     {
-        //
+        return view('veiculo.edit',compact('veiculo'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Models\Veiculo  $veiculo
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Veiculo $veiculo)
     {
-        //
+        $request->validate([
+            'placa'  => 'required',
+            'modelo' => 'required',
+            'ano'    => 'required'
+        ]);
+
+        $veiculo->update($request->all());
+
+        return redirect()->route('veiculo.index')->with(
+            'success', 'Veiculo editado com sucesso!'
+        );
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Models\Veiculo  $veiculo
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Veiculo $veiculo)
     {
-        
-        Schema::drop('Veiculo');
+        $veiculo->delete();
+        return redirect()->route('veiculo.index')->with(
+            'success', 'Veiculo Excluido com sucesso!'
+        );
     }
 }
