@@ -12,6 +12,6 @@ class VeiculosTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(Veiculo::class, 80)->create();
+        factory(Veiculo::class, 30)->create();
     }
 }

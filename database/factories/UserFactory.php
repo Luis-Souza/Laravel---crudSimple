@@ -27,13 +27,3 @@ $factory->define(User::class, function (Faker $faker) {
         'remember_token' => Str::random(10),
     ];
 });
-
-$factory->define(Veiculo::class, function (Faker $faker) {
-    return [
-        'id'     => $faker->unique()-MYSQLI_AUTO_INCREMENT_FLAG,
-        'modelo' => $faker->sentence(3),
-        'placa'  => $faker->unique()->text(50),
-        'ano'    => $faker->text(10),
-        'timestamp'=> $faker->date_timestamp_get()
-    ];
-});

@@ -14,9 +14,9 @@ class VeiculoController extends Controller
      */
     public function index()
     {
-        $veiculos = Veiculo::latest()->paginate(5);
+        $veiculos = Veiculo::latest()->paginate(30);
         return view('veiculo.index', compact('veiculos'))->with(
-            'i', (request()->input('page',1) - 1) * 5);
+            'i', (request()->input('page',1) - 1) * 30);
     }
 
     /**

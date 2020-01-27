@@ -49,5 +49,6 @@
         </th>
     </table>
 @endforelse
+
     {!! $veiculos->links() !!}
 @endsection
